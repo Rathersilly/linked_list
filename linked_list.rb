@@ -44,13 +44,16 @@ class LinkedList
   end
   
   def pop
+    
     last_node = @tail
-    current_node = @head.next_node
-    while current_node.next_node!= @tail
-      current_node = current_node.next_node
-    end
-    @tail = current_node
-    current_node.next_node = nil
+    at(size-2).next_node = nil
+    @tail = at(size-2)
+#    current_node = @head.next_node
+#    while current_node.next_node!= @tail
+#      current_node = current_node.next_node
+#    end
+#    @tail = current_node
+#    current_node.next_node = nil
     return last_node
   end
 
@@ -91,25 +94,23 @@ class LinkedList
   end
 
   def insert_at(index, data)
-    current_node = @head
-    current_index = 0
-    while current_index != index
-      current_node = current_node.next_node
-      current_index += 1
+    node  = Node.new(data)
+    if index == 0
+      node.next_node = @head.next_node
+      @head.next_node = node
+    else
+      node.next_node = at(index-1).next_node
+      at(index-1).next_node = node
     end
-    node  = Node.new(data, current_node.next_node)
-    current_node.next_node = node
+
   end
 
   def delete_at(index)
-    current_node = @head
-    current_index = 0
-    while current_index != index
-      current_node = current_node.next_node
-      current_index += 1
+    if index == 0
+      @head.next_node = at(0).next_node
+    else
+      at(index-1).next_node = at(index).next_node
     end
-    deleted_node = current_node.next_node
-    current_node.next_node  = deleted_node.next_node
   end
 
 end
